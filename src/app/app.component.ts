@@ -47,6 +47,8 @@ export class AppComponent implements OnInit {
     'Price Change',
     '24h Volume',
   ];
+  searchText: string = '';
+  filteredCoins: Coin[] = [];
 
   constructor(
     private http: HttpClient
@@ -59,6 +61,7 @@ export class AppComponent implements OnInit {
         next: (res) => {
           console.log({res})
           this.coins = res;
+          this.filteredCoins = res;
         },
         error: (err) => {
           console.error(err)
@@ -67,6 +70,12 @@ export class AppComponent implements OnInit {
   }
 
 
+  searchCoin() {
+    this.filteredCoins = this.coins.filter(coin =>
+      coin.name.toLowerCase().includes( this.searchText ) ||
+      coin.symbol.toLowerCase().includes( this.searchText )
+    )
+  }
 
 
 }
